@@ -1,17 +1,23 @@
-CREATE TABLE safe.patients (
+CREATE TABLE safe.dim_gender (
     id SERIAL PRIMARY KEY,
-    gender CHAR(10) CHECK (gender IN ('Male', 'Female')),
+    gender CHAR(10) CHECK (gender IN ('Male', 'Female'))
+);
+
+CREATE TABLE safe.dim_patients (
+    id SERIAL PRIMARY KEY,
+    gender_id INT REFERENCES safe.dim_gender(id),
     age INT CHECK (age > 0)
 );
 
-CREATE TABLE safe.lifestyle (
+CREATE TABLE safe.dim_lifestyle (
     id SERIAL PRIMARY KEY,
     smoking BOOLEAN,
     alcohol_consuming BOOLEAN,
-    peer_pressure BOOLEAN
+    peer_pressure BOOLEAN,
+    lifestyle_name VARCHAR(50) UNIQUE
 );
 
-CREATE TABLE safe.medical_conditions (
+CREATE TABLE safe.dim_medical_conditions (
     id SERIAL PRIMARY KEY,
     anxiety BOOLEAN,
     yellow_fingers BOOLEAN,
@@ -25,15 +31,15 @@ CREATE TABLE safe.medical_conditions (
     chest_pain BOOLEAN
 );
 
-CREATE TABLE safe.diagnosis (
+CREATE TABLE safe.dim_diagnosis (
     id SERIAL PRIMARY KEY,
-    lung_cancer BOOLEAN
+    lung_cancer VARCHAR(55) CHECK (lung_cancer IN ('Lung cancer patient', 'Healthy'))
 );
 
-CREATE TABLE safe.lung_cancer_facts (
+CREATE TABLE safe.facts_lung_cancer_facts (
     id SERIAL PRIMARY KEY,
-    patient_id INT REFERENCES safe.patients(id),
-    lifestyle_id INT REFERENCES safe.lifestyle(id),
-    medical_id INT REFERENCES safe.medical_conditions(id),
-    diagnosis_id INT REFERENCES safe.diagnosis(id)
+    patient_id INT REFERENCES safe.dim_patients(id),
+    lifestyle_id INT REFERENCES safe.dim_lifestyle(id),
+    medical_id INT REFERENCES safe.dim_medical_conditions(id),
+    diagnosis_id INT REFERENCES safe.dim_diagnosis(id)
 );
