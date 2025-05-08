@@ -28,7 +28,7 @@ WHERE gender IS NOT NULL
   AND LOWER(gender) IN ('m', 'male', 'f', 'female')
 ON CONFLICT DO NOTHING;
 
--- Імпортуванн унікальних записів в таблиці пацієнтів
+-- Імпортування унікальних записів в таблиці пацієнтів
 INSERT INTO safe.dim_patients (gender_id, age)
 SELECT
     g.id,
@@ -46,22 +46,22 @@ JOIN safe.dim_gender g
                   ELSE 'Female'
                 END;
 
--- Іпортування унікальних записів в таблиці медичних станів
+-- Імпортування унікальних записів в таблиці медичних станів
 INSERT INTO safe.dim_medical_conditions (
     anxiety, yellow_fingers, chronic_disease, fatigue, allergy,
     wheezing, coughing, shortness_of_breath, swallowing_difficulty, chest_pain
 )
 SELECT DISTINCT
-    CASE WHEN LOWER(anxiety) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END,
-    CASE WHEN LOWER(yellow_fingers) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END,
-    CASE WHEN LOWER(chronic_disease) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END,
-    CASE WHEN LOWER(fatigue) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END,
-    CASE WHEN LOWER(allergy) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END,
-    CASE WHEN LOWER(wheezing) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END,
-    CASE WHEN LOWER(coughing) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END,
-    CASE WHEN LOWER(shortness_of_breath) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END,
-    CASE WHEN LOWER(swallowing_difficulty) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END,
-    CASE WHEN LOWER(chest_pain) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END
+    CASE WHEN LOWER(anxiety) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END,
+    CASE WHEN LOWER(yellow_fingers) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END,
+    CASE WHEN LOWER(chronic_disease) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END,
+    CASE WHEN LOWER(fatigue) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END,
+    CASE WHEN LOWER(allergy) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END,
+    CASE WHEN LOWER(wheezing) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END,
+    CASE WHEN LOWER(coughing) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END,
+    CASE WHEN LOWER(shortness_of_breath) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END,
+    CASE WHEN LOWER(swallowing_difficulty) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END,
+    CASE WHEN LOWER(chest_pain) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END
 FROM (
     SELECT
         anxiety::TEXT,
@@ -133,20 +133,20 @@ SELECT
     d.id AS diagnosis_id
 FROM (
     SELECT DISTINCT gender, age,
-        CASE WHEN LOWER(smoking) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END AS smoking,
-        CASE WHEN LOWER(alcohol_consuming) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END AS alcohol_consuming,
-        CASE WHEN LOWER(peer_pressure) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END AS peer_pressure,
+        CASE WHEN LOWER(smoking) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END AS smoking,
+        CASE WHEN LOWER(alcohol_consuming) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END AS alcohol_consuming,
+        CASE WHEN LOWER(peer_pressure) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END AS peer_pressure,
 
-        CASE WHEN LOWER(anxiety) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END AS anxiety,
-        CASE WHEN LOWER(yellow_fingers) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END AS yellow_fingers,
-        CASE WHEN LOWER(chronic_disease) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END AS chronic_disease,
-        CASE WHEN LOWER(fatigue) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END AS fatigue,
-        CASE WHEN LOWER(allergy) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END AS allergy,
-        CASE WHEN LOWER(wheezing) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END AS wheezing,
-        CASE WHEN LOWER(coughing) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END AS coughing,
-        CASE WHEN LOWER(shortness_of_breath) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END AS shortness_of_breath,
-        CASE WHEN LOWER(swallowing_difficulty) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END AS swallowing_difficulty,
-        CASE WHEN LOWER(chest_pain) IN ('yes', '1', 'true') THEN TRUE ELSE FALSE END AS chest_pain,
+        CASE WHEN LOWER(anxiety) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END AS anxiety,
+        CASE WHEN LOWER(yellow_fingers) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END AS yellow_fingers,
+        CASE WHEN LOWER(chronic_disease) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END AS chronic_disease,
+        CASE WHEN LOWER(fatigue) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END AS fatigue,
+        CASE WHEN LOWER(allergy) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END AS allergy,
+        CASE WHEN LOWER(wheezing) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END AS wheezing,
+        CASE WHEN LOWER(coughing) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END AS coughing,
+        CASE WHEN LOWER(shortness_of_breath) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END AS shortness_of_breath,
+        CASE WHEN LOWER(swallowing_difficulty) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END AS swallowing_difficulty,
+        CASE WHEN LOWER(chest_pain) IN ('yes', '2', 'true') THEN TRUE ELSE FALSE END AS chest_pain,
 
         CASE WHEN LOWER(lung_cancer) IN ('yes', 'lung cancer') THEN 'Lung cancer patient' ELSE 'Healthy' END AS lung_cancer_status
     FROM stage.lung_cancer_info1
